@@ -1,13 +1,10 @@
-package edu.iastate.cs228.hw2;
-
-/**
- * 
- * @author 
- *
- */
+//package edu.iastate.cs228.hw2;
+// @author Michael Jones V
 
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.io.File;
 
 
 /**
@@ -22,12 +19,10 @@ public class PointScanner
 {
 	private Point[] points; 
 	
-	private Point medianCoordinatePoint;  // point whose x and y coordinates are respectively the medians of 
-	                                      // the x coordinates and y coordinates of those points in the array points[].
+	private Point medianCoordinatePoint;  // point whose x and y coordinates are respectively the medians of the x coordinates and y coordinates of those points in the array points[].
 	private Algorithm sortingAlgorithm;    
-	
 		
-	protected long scanTime; 	       // execution time in nanoseconds. 
+	protected long scanTime; // execution time in nanoseconds. 
 	
 	/**
 	 * This constructor accepts an array of points and one of the four sorting algorithms as input. Copy 
@@ -38,20 +33,58 @@ public class PointScanner
 	 */
 	public PointScanner(Point[] pts, Algorithm algo) throws IllegalArgumentException
 	{
-		
+    points = pts;
+    sortingAlgorithm = algo;
+    
+    if(pts == null || pts.length == 0)
+      throw new IllegalArgumentException("Invalid input array");
+    if(algo == null || !(algo == Algorithm.SelectionSort || algo == Algorithm.InsertionSort || algo == Algorithm.MergeSort || algo == Algorithm.QuickSort)){
+      throw new IllegalArgumentException("Invalid input algoritm");
+    }
+
+    // TBC
 	}
 
 	
 	/**
 	 * This constructor reads points from a file. 
-	 * 
 	 * @param  inputFileName
 	 * @throws FileNotFoundException 
 	 * @throws InputMismatchException   if the input file contains an odd number of integers
 	 */
 	protected PointScanner(String inputFileName, Algorithm algo) throws FileNotFoundException, InputMismatchException
 	{
-		// TODO
+
+    int i = 0;
+    sortingAlgorithm = algo;
+    File pointFile = new File(inputFileName);
+    
+    if(!pointFile.exists()){
+      throw new FileNotFoundException("File not found: " + inputFileName);
+    }
+    
+    Scanner sInit = new Scanner(pointFile);
+    Scanner sFin = new Scanner(pointFile);
+    
+    while(sInit.hasNextInt()){
+      i++;
+    }
+    if(i % 2 != 0){
+       throw new InputMismatchException("File consists of an odd number of integers.");
+    } 
+
+    points = new Point[i/2];
+    i = 0;
+         
+    while (sFin.hasNextInt()) {
+      int x = sFin.nextInt();
+      int y = sFin.nextInt();
+      points[i] = new Point(x, y);
+      i++; 
+    }
+
+    // TBC
+    
 	}
 
 	
