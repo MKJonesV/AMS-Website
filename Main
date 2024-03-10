@@ -1,2 +1,107 @@
-public class Main{
+//package edu.iastate.cs228.hw2;
+// @author Michael Jones V
+
+/**
+ * 
+ * quicksort, over randomly generated integers as well integers from a file input. It compares the 
+ * execution times of these algorithms on the same input. 
+ *
+ */
+
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.InputMismatchException;
+import java.util.Random; 
+
+
+public class Main 
+{
+  
+	public static void main(String[] args) throws FileNotFoundException
+	{		
+
+    Point[] pointArr;
+		PointScanner[] scanners = new PointScanner[4]; 
+    long runtime;
+    Scanner s = new Scanner(System.in);
+
+    System.out.println("Performances of four sorting algorithms in point scanning.\n");
+    System.out.println("Trial Keys: Type '1' for random integers, '2' for integers from file, and '3' to exit the program.");
+    
+    int input = 0;
+    int numTrials = 1;
+    
+    while(input != 3){
+      try{
+        System.out.print("\nTrial "+numTrials+": ");
+        input = s.nextInt();
+        if(input == 3){
+          break;
+        }
+        if(!(input == 1 || input == 2)){
+          throw new InputMismatchException("Invalid input");
+        }else{
+          numTrials++;
+          if(input == 1){
+            System.out.print("\nEnter the number of randomly generated points to use: ");
+            int numRandomPoints = s.nextInt();
+            Random r = new Random();
+            pointArr = generateRandomPoints(numRandomPoints, r);
+            scanners[0] = new PointScanner(pointArr, Algorithm.MergeSort);
+            scanners[1] = new PointScanner(pointArr, Algorithm.InsertionSort);
+            scanners[2] = new PointScanner(pointArr, Algorithm.SelectionSort);
+            scanners[3] = new PointScanner(pointArr, Algorithm.QuickSort);
+          }
+          if(input == 2){
+            System.out.print("\nEnter the filename: ");
+            String fileName = s.next();
+            scanners[0] = new PointScanner(fileName, Algorithm.MergeSort);
+            scanners[1] = new PointScanner(fileName, Algorithm.InsertionSort);
+            scanners[2] = new PointScanner(fileName, Algorithm.SelectionSort);
+            scanners[3] = new PointScanner(fileName, Algorithm.QuickSort);
+          }
+          
+          
+        }
+      } catch(InputMismatchException e){
+        System.out.println(e.getMessage());
+      }
+    }
+		
+		// For each input of points, do the following. 
+		// 
+		//     a) Initialize the array scanners[].  
+		//
+		//     b) Iterate through the array scanners[], and have every scanner call the scan() 
+		//        method in the PointScanner class.  
+		//
+		//     c) After all four scans are done for the input, print out the statistics table from
+		//		  section 2.
+		//
+		// A sample scenario is given in Section 2 of the project description. 
+		
+	}
+	
+	
+	/**
+	 * This method generates a given number of random points.
+	 * The coordinates of these points are pseudo-random numbers within the range 
+	 * [-50,50] � [-50,50]. Please refer to Section 3 on how such points can be generated.
+	 * 
+	 * Ought to be private. Made public for testing. 
+	 * 
+	 * @param numPts  	number of points
+	 * @param rand      Random object to allow seeding of the random number generator
+	 * @throws IllegalArgumentException if numPts < 1
+	 */
+	public static Point[] generateRandomPoints(int numPts, Random rand) throws IllegalArgumentException
+	{ 
+    Point[] arr = new Point[numPts];
+		for(int i = 0; i < numPts; i++){
+      Point p = new Point(rand.nextInt(101) - 50, rand.nextInt(101) - 50);
+      arr[i] = p;
+    }
+    return arr;
+	}
+	
 }
