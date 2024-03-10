@@ -1,16 +1,10 @@
-package edu.iastate.cs228.hw2;
+//package edu.iastate.cs228.hw2;
+// @author Michael Jones V
 
 import java.io.FileNotFoundException;
 import java.lang.NumberFormatException; 
 import java.lang.IllegalArgumentException; 
 import java.util.InputMismatchException;
-
-
-/**
- *  
- * @author
- *
- */
 
 /**
  * 
